@@ -21,6 +21,11 @@ def logar(name,password):
         print('Usuario ou senha incorreto!')
 
 root = ctk.CTk()
+root.geometry('400x300')
+root.resizable(False,False)
+ctk.set_default_color_theme("green")
+ctk.set_appearance_mode("green")
+
 
 root.mainloop()
 
