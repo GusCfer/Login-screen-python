@@ -6,6 +6,8 @@ import requests
 from PIL import Image, ImageTk
 import io
 
+#AJUSTAR ERROS DDE ALGUMAS CIDADE E ARRUMAR LAYOUT
+
 conn = sqlite3.connect(r'C:\SQLITE\BANCOTESTE\data.db')
 cursor = conn.cursor()
 
