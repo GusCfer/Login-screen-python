@@ -76,12 +76,12 @@ ctk.set_appearance_mode("system")
 label1 = ctk.CTkLabel(root2,text='Digite a Cidade:',font=('Arial',15))
 label1.place(relx=0.23,rely=0.02)
 #campo para entrada de texto
-selectioncity = ctk.CTkEntry(root2,width=160,height=10)
+selectioncity = ctk.CTkEntry(root2,width=160,height=10,placeholder_text='digite aqui!')
 selectioncity.place(relx=0.1,rely=0.13)
 selectioncity.insert(ctk.END,'')
 
 #botão para chamar as informações
-button = ctk.CTkButton(root2,width=100,height=30,text='Pesquisar',fg_color='#6da4a4',
+button = ctk.CTkButton(root2,width=100,height=30,text='Pesquisar',fg_color='#8651e8',
                        command=lambda: clima(selectioncity.get()),text_color='black')
 button.place(relx=0.25,rely=0.23)
 
@@ -133,11 +133,39 @@ buttonlogin = ctk.CTkButton(graycanva,width=120,height=20,text='Entrar',fg_color
 buttonlogin.place(relx=0.3,rely=0.5)
 
 #definindo função de criar usuario
-
 def createusu():
+    #configurações da janela
     root3= ctk.CTkToplevel()
-    root3.mainloop()
+    root3.geometry('200x150')
+    root3.resizable(False,False)
+    #Criação dos widgets
+    labelnewusu = ctk.CTkLabel(root3,text='Crie seu usuario! \n digite abaixo:', font=('Arial',15))
+    labelnewusu.place(relx=0.25,rely=0.05)
+    #entry para nome
+    newusu= ctk.CTkEntry(root3,height=20,width=100,placeholder_text='Usuário')
+    newusu.place(relx=0.27,rely=0.3)
+    #entry para nova senha
+    newpass= ctk.CTkEntry(root3,height=20,width=100,placeholder_text='Senha')
+    newpass.place(relx=0.27,rely=0.45)
     
+    #função para inserir novo usuario
+    def insertnewusu(usu,senha):
+        try:
+            cursor.execute(f"insert into usuarios(nome,senha) values('{usu}',{senha})")
+            conn.commit()
+            mensagem = ctk.CTkLabel(root3,text='Criado com sucesso!',font=('Calibri',15),text_color='Green')
+            mensagem.place(relx=0.33,rely=0.4)
+        except Exception as e:
+            mensagem = ctk.CTkLabel(root3,text='Erro!',font=('Calibri',15),text_color='Red')
+            mensagem.place(relx=0.33,rely=0.4)
+            print(e)
+    
+    buttoncreate = ctk.CTkButton(root3,height=20,width=70,text='Criar',text_color='Black',
+                                 command=lambda:insertnewusu(str(newusu.get()),int(newpass.get())),fg_color='#8651e8')
+    buttoncreate.place(relx=0.34,rely=0.64)
+
+    root3.mainloop()
+
 #botão de criar usuario
 buttonusu = ctk.CTkButton(graycanva,width=120,height=15,text='criar usuario', fg_color='#3d3d3d',command=createusu)
 buttonusu.place(relx=0.3,rely=0.53)
