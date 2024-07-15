@@ -113,7 +113,13 @@ root.resizable(False,False)
 #definição de tema
 ctk.set_appearance_mode("dark")
 #inicio da definição do widgets
-#configuração do canva cinza que fica na direita (canvas cinza)
+#imagem background da tela de login
+background = Image.open('C:\imagem\BACKGROUND.png')
+image_ctk = ctk.CTkImage(light_image=background, size=(background.width,background.height))
+backgroundlabel = ctk.CTkButton(master=root,image=image_ctk,text='')
+backgroundlabel.place(relx=0,rely=0)
+
+#configuração do canva cinza que fica na direita (frame cinza)
 graycanva = ctk.CTkFrame(root,width=290,height=700,fg_color='#3d3d3d')
 graycanva.place(relx=0.65,rely=-0.1)
 #widget texto e campo de digitação:
