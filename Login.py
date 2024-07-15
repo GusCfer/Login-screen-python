@@ -6,11 +6,11 @@ import requests
 from PIL import Image, ImageTk
 import io
 
-#AJUSTAR ERROS DDE ALGUMAS CIDADE E ARRUMAR LAYOUT
-
-conn = sqlite3.connect(r'C:\SQLITE\BANCOTESTE\data.db')
+#conexão com banco de dados
+conn = sqlite3.connect(r'C:\SQLITE\BANCOTESTE\DATA.db')
 cursor = conn.cursor()
 
+#definiçãoda função do clima
 def clima(namecity):
     #toda configuração para trazer e armazenar os dados da requisição em variaveis
     global dados,icon,localizacao,temperatuura,condicoes,city_name
@@ -67,7 +67,7 @@ def clima(namecity):
     
 #configuração padrão da janela
 root2= ctk.CTk()
-root2.geometry('200x300')
+root2.geometry('800x600')
 root2.resizable(False,False)
 ctk.set_default_color_theme("green")
 ctk.set_appearance_mode("system")
@@ -81,35 +81,30 @@ selectioncity.place(relx=0.1,rely=0.13)
 selectioncity.insert(ctk.END,'')
 
 #botão para chamar as informações
-button = ctk.CTkButton(root2,width=100,height=30,text='Pesquisar',fg_color='#6da4a4',command=lambda: clima(selectioncity.get()),text_color='black')
+button = ctk.CTkButton(root2,width=100,height=30,text='Pesquisar',fg_color='#6da4a4',
+                       command=lambda: clima(selectioncity.get()),text_color='black')
 button.place(relx=0.25,rely=0.23)
 
 #definindo a função para validar usuario e senha
 def logar(name,password):
     nome_login= name
-    senha_login = password
-    
+    senha_login = password 
     #mensagem de senha ou usuario errado
     def errorlogin(mensage):
         mensagem= mensage
         failedlogin= ctk.CTkLabel(graycanva,text=mensagem,font=('calibri',15))
         failedlogin.place(relx=0.36,rely=0.55)
-
     cursor.execute("SELECT senha FROM usuarios WHERE nome = ?",(nome_login,))
     try:
         senha_banco = cursor.fetchone()[0]
-        
         if senha_banco == senha_login:
             print("Login efetuado com sucesso!")
             root.withdraw()
             root2.mainloop()
-
         else:
             errorlogin('senha incorreta!!!')
-
     except Exception as e:
         errorlogin('Usuario incorreto!')
-
 #inicação da criação da janela e configuração padrão
 root = ctk.CTk()
 root.geometry('800x600')
@@ -118,24 +113,34 @@ root.resizable(False,False)
 #definição de tema
 ctk.set_appearance_mode("dark")
 #inicio da definição do widgets
-#configuração do canva cinza que fica na direita
+#configuração do canva cinza que fica na direita (canvas cinza)
 graycanva = ctk.CTkFrame(root,width=290,height=700,fg_color='#3d3d3d')
 graycanva.place(relx=0.65,rely=-0.1)
 #widget texto e campo de digitação:
-#FAÇA O LOGIN
+#FAÇA O LOGIN (Label)
 text1 = ctk.CTkLabel(graycanva,text='Faça o Login:',font=('Calibri',15),text_color='#b1b2b3')
 text1.place(relx=0.36,rely=0.35)
-#USUENTRY
+#USUENTRY (Entry) 
 usuentry= ctk.CTkEntry(graycanva,width=160,height=10,placeholder_text='Usuário')
 usuentry.place(relx=0.23,rely=0.4)
-#USUSENHA
+#USUSENHA (Entry)
 ususenha= ctk.CTkEntry(graycanva,width=160,height=10,placeholder_text='Senha',show='*')
 ususenha.place(relx=0.23,rely=0.45)
-#botão de login
 
-buttonlogin = ctk.CTkButton(graycanva,width=120,height=20,text='Entrar',fg_color='#8651e8',text_color='#333233',command=lambda:logar(usuentry.get(),int(ususenha.get())))
+#botão de login (button)
+buttonlogin = ctk.CTkButton(graycanva,width=120,height=20,text='Entrar',fg_color='#8651e8',text_color='#333233',
+                            command=lambda:logar(usuentry.get(),int(ususenha.get())))
 buttonlogin.place(relx=0.3,rely=0.5)
 
+#definindo função de criar usuario
+
+def createusu():
+    root3= ctk.CTkToplevel()
+    root3.mainloop()
+    
+#botão de criar usuario
+buttonusu = ctk.CTkButton(graycanva,width=120,height=15,text='criar usuario', fg_color='#3d3d3d',command=createusu)
+buttonusu.place(relx=0.3,rely=0.53)
 
 root.mainloop()
 
