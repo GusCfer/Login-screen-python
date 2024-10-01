@@ -6,8 +6,9 @@ import requests
 from PIL import Image, ImageTk
 import io
 
+
 #conexão com banco de dados
-conn = sqlite3.connect(r'C:\SQLITE\BANCOTESTE\DATA.db')
+conn = sqlite3.connect(r'C:/Users/gusta/OneDrive/Área de Trabalho/Projetos Python/Tela Login/DATABASE/DATA.db')
 cursor = conn.cursor()
 
 #definiçãoda função do clima
@@ -15,10 +16,11 @@ def clima(namecity):
     #toda configuração para trazer e armazenar os dados da requisição em variaveis
     global dados,icon,localizacao,temperatuura,condicoes,city_name
     city_name = namecity
-    api_key = 'API_KEY_HERE'
+    api_key = 'api_key_here'
     link = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={city_name}&aqi=no"
     requisicao = requests.get(link)
     data = requisicao.json()
+    print(data)
     dados = data['current']
     localizacao = data['location']
     temperatura = dados['temp_c']
@@ -99,7 +101,7 @@ selectioncity.insert(ctk.END,'')
 #botão para chamar as informações
 button = ctk.CTkButton(frame,width=100,height=30,text='PESQUISAR',fg_color='#8651e8',
                        command= lambda: clima(selectioncity.get()),text_color='black')
-button.place(relx=0.3,rely=0.45)
+button.place(relx=0.30,rely=0.45)
 
 #definindo a função para validar usuario e senha
 def logar(name,password):
@@ -109,7 +111,7 @@ def logar(name,password):
     def errorlogin(mensage):
         mensagem= mensage
         failedlogin= ctk.CTkLabel(graycanva,text=mensagem,font=('calibri',15))
-        failedlogin.place(relx=0.36,rely=0.55)
+        failedlogin.place(relx=0.36,rely=0.6)
     cursor.execute("SELECT senha FROM usuarios WHERE nome = ?",(nome_login,))
     try:
         senha_banco = cursor.fetchone()[0]
@@ -121,19 +123,16 @@ def logar(name,password):
             errorlogin('senha incorreta!!!')
     except Exception as e:
         errorlogin('Usuario incorreto!')
+        
 #inicação da criação da janela e configuração padrão
 root = ctk.CTk()
 root.geometry('800x600')
 root.title('Climatempo')
 root.resizable(False,False)
 #definição de tema
-ctk.set_appearance_mode("dark")
+ctk.set_appearance_mode("dark") 
 #inicio da definição do widgets
 #imagem background da tela de login
-'''background = Image.open('C:\imagem\BACKGROUND.png')
-image_ctk = ctk.CTkImage(light_image=background, size=(background.width,background.height))
-backgroundlabel = ctk.CTkLabel(master=root,image=image_ctk,text='')
-backgroundlabel.place(relx=0,rely=0)'''
 
 #configuração do canva cinza que fica na direita (frame cinza)
 graycanva = ctk.CTkFrame(root,width=290,height=700,fg_color='#3d3d3d')
@@ -151,7 +150,7 @@ ususenha.place(relx=0.23,rely=0.45)
 
 #botão de login (button)
 buttonlogin = ctk.CTkButton(graycanva,width=120,height=20,text='ENTRAR',fg_color='#8651e8',text_color='#333233',
-                            command=lambda:logar(usuentry.get(),int(ususenha.get())))
+                            command=lambda:logar(usuentry.get(),str(ususenha.get())))
 buttonlogin.place(relx=0.3,rely=0.5)
 
 #definindo função de criar usuario
