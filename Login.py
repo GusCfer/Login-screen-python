@@ -15,7 +15,7 @@ def clima(namecity):
     #toda configuração para trazer e armazenar os dados da requisição em variaveis
     global dados,icon,localizacao,temperatuura,condicoes,city_name
     city_name = namecity
-    api_key = '7a803f7c90c542eea80192316241007'
+    api_key = 'API_KEY_HERE'
     link = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={city_name}&aqi=no"
     requisicao = requests.get(link)
     data = requisicao.json()
